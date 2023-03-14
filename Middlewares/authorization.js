@@ -1,4 +1,4 @@
-const UserModel = require("../model/user");
+const UserModel = require("../Model/user");
 
 const authorisation = (permittedrole) => {
     return async (req, res, next) => 
