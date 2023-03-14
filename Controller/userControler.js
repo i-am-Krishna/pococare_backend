@@ -46,14 +46,10 @@ const login= async(req,res,next)=>{
     if(!correctPassword){
         return res.status(400).json({message:"Incorrect Password"});
     }
-    const token = jwt.sign({email:existingUser.email,password:existingUser.password},process.env.JWT_PASSWORD,{
+    const token = jwt.sign({email:existingUser.email,password:existingUser.password},process.env.ACCESS_TOKEN_PRIVATE_KEY,{
         expiresIn:"7d"
     })
     return res.status(200).json({message:"Login Successful",user:existingUser,token})
 }
 
-
-
-
-
-module.exports = {signup,login}
+module.exports = {signup,login};
