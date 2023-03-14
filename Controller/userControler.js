@@ -1,5 +1,6 @@
 const UserModel = require("../model/user")
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 require("dotenv").config()
  
 
@@ -34,19 +35,21 @@ const login= async(req,res,next)=>{
     let existingUser;
     try{
         existingUser = await UserModel.findOne({email});
-
-    }catch(err){
+    }
+    catch(err){
         console.log(err)
     }
     if(!existingUser){
-        return res.status(404).json({message:"User Not Exists!!!"})
+        return res.status(404).json({message:"User Not Exists"})
     }
-
-    const correctPassword = await bcrypt.compare(password,existingUser.password)
-    if(!correctPassword){ 
-       return res.status(400).json({message:"Incorrect Password"})
-}
-       return res.status(200).json({message:"Login Successful",user:existingUser})
+    const correctPassword = await bcrypt.compare(password,existingUser.password);
+    if(!correctPassword){
+        return res.status(400).json({message:"Incorrect Password"});
+    }
+    const token = jwt.sign({email:existingUser.email,password:existingUser.password},process.env.JWT_PASSWORD,{
+        expiresIn:"7d"
+    })
+    return res.status(200).json({message:"Login Successful",user:existingUser,token})
 }
 
 
