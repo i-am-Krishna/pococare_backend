@@ -24,7 +24,7 @@ app.listen(port,async()=>{
     } catch (error) {
         console.log(error,"Something went wrong in database");
     }
-    console.log(`Backend runs sucessfully on ${port}`);
+    console.log(`Backend runs sucessfully`);
 })
 
  
